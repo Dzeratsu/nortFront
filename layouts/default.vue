@@ -1,0 +1,72 @@
+<template>
+  <div>
+ <div class="head">
+   <div>
+     <nuxt-link to="/"><img :src="require('~/assets/logo.png')" alt="«НПО НОРТ»"></nuxt-link>
+   </div>
+   <div style="padding-right: 50px" v-if="!this.$auth.loggedIn">
+    <nuxt-link to="/login">Авторизация</nuxt-link>
+     /
+     <nuxt-link to="/registration">Регистрация</nuxt-link>
+   </div>
+   <div style="padding-right: 50px" v-if="this.$auth.loggedIn">
+     <p @click="exit">Выход</p>
+   </div>
+ </div>
+
+  <Nuxt  class="wrapper"/>
+
+<div class="foot">
+  <div class="footNort">«НПО НОРТ»</div>
+  <div class="footNort">1993 - {{year}}</div>
+</div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "default",
+  data(){
+    return {
+      year: new Date().getFullYear()
+    }
+  },
+  methods: {
+    exit(){
+      this.$auth.logout()
+        console.log(this.$auth.loggedIn)
+    }
+  },
+}
+</script>
+
+<style scoped>
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 110px;
+  background-color: rgb(0, 0, 0, 0.5);
+  border-bottom: solid 2px #fac22e ;
+  box-shadow: 10px 5px 45px black;
+}
+.foot{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background-color: rgb(0, 0, 0, 0.5);
+  box-shadow: 10px 5px 45px black;
+  border-top: solid 2px #fac22e;
+}
+.footNort{
+  padding-top: 10px;
+  font-size: 18px;
+  text-align: center;
+  margin: 0 auto;
+}
+img{
+  padding-left: 50px;
+}
+</style>
