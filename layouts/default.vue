@@ -4,13 +4,16 @@
    <div>
      <nuxt-link to="/"><img :src="require('~/assets/logo.png')" alt="«НПО НОРТ»"></nuxt-link>
    </div>
+   <div v-if="this.$auth.loggedIn">
+     <nuxt-link to="/orders"><button class="sign">Вход в систему</button></nuxt-link>
+   </div>
    <div style="padding-right: 50px" v-if="!this.$auth.loggedIn">
     <nuxt-link to="/login">Авторизация</nuxt-link>
      /
      <nuxt-link to="/registration">Регистрация</nuxt-link>
    </div>
    <div style="padding-right: 50px" v-if="this.$auth.loggedIn">
-     <p @click="exit">Выход</p>
+     <p @click="exit" class="exit">Выход</p>
    </div>
  </div>
 
@@ -34,13 +37,18 @@ export default {
   methods: {
     exit(){
       this.$auth.logout()
-        console.log(this.$auth.loggedIn)
     }
   },
 }
 </script>
 
 <style scoped>
+.sign{
+  color: black;
+  width: 250px;
+  height: 50px;
+  background: #fac22e;
+}
 .head {
   display: flex;
   justify-content: space-between;
@@ -68,5 +76,9 @@ export default {
 }
 img{
   padding-left: 50px;
+}
+.exit {
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>
