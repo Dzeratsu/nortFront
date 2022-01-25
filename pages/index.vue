@@ -2,7 +2,12 @@
 <div>
   <button id="show-modal" @click="showModal = true">Show Modal</button>
   <modal v-if="showModal" @close="showModal = false">
-    <h3 slot="header">custom header</h3>
+    <template v-slot:header>
+      This is a new modal header.
+    </template>
+    <template v-slot:body>
+      This is a new modal body.
+    </template>
   </modal>
 
 </div>

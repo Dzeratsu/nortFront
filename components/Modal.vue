@@ -1,32 +1,26 @@
 <template>
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
-
-          <div class="modal-header">
-            <slot name="header">
-              default header
-            </slot>
-          </div>
-
-          <div class="modal-body">
-            <slot name="body">
-              default body
-            </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
-              <button class="modal-default-button" @click="$emit('close')">
-                OK
-              </button>
-            </slot>
-          </div>
-        </div>
-      </div>
-    </div>
+  <transition name="modal-fade">
+<div class="modal-backdrop">
+<div class="modal">
+  <header class="modal-header">
+<slot name="header">
+  <h1>Добавление нового заказа</h1>
+  <button
+    type="button"
+    class="btn-close"
+    @click="close"
+  >
+    x
+  </button>
+</slot>
+  </header>
+  <section class="modal-body">
+  <slot name="body">
+    I'm the default body!
+  </slot>
+  </section>
+</div>
+</div>
   </transition>
 </template>
 
@@ -37,60 +31,80 @@ export default {
     return {
       showModal: false
     }
+  },
+  methods: {
+    close() {
+      this.$emit('close');
+    },
   }
 }
 </script>
 
 <style scoped>
-.modal-mask {
+h1{
+  font-size: 25px;
+}
+.modal-backdrop {
   position: fixed;
-  z-index: 9998;
   top: 0;
+  bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: table;
-  transition: opacity 0.3s ease;
-}
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
 }
-
-.modal-container {
-  width: 900px;
+.modal {
+  min-width: 800px;
   min-height: 600px;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: rgba(255, 255, 255, 0.95);
-  border: 2px solid #fac22e;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-  transition: all 0.3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-  color: red;
+  background: #FFFFFF;
+  box-shadow: 10px 5px 45px black;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: solid 1px #fac22e;
 }
-
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+.modal-header {
+  border-bottom: 1px solid #eeeeee;
+  color: #fac22e;
+  justify-content: space-between;
 }
-
+.modal-header {
+  border-bottom: 1px solid #eeeeee;
+  color: black;
+  justify-content: space-between;
+  padding: 15px;
+  display: flex;
+}
 .modal-body {
-  margin: 20px 0;
+  position: relative;
+  padding: 20px 10px;
+}
+.btn-close {
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #fac22e;
+
 }
 
-.modal-default-button {
-  float: right;
+.btn-green {
+  color: white;
+  background: #4AAE9B;
+  border: 1px solid #4AAE9B;
+  border-radius: 2px;
+}
+.modal-fade-enter,
+.modal-fade-leave-active {
+  opacity: 0;
 }
 
-
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity .5s ease
 }
 </style>
