@@ -1,40 +1,37 @@
 <template>
   <div class="order">
-Ордер
+    <div class="table-head">
+      <div class="idHead id">№</div>
+      <div class="dateHead date">Дата</div>
+      <div class="nameHead name">Имя</div>
+      <div class="sourceHead source">Источник</div>
+      <div class="phoneHead phone">Телефон</div>
+      <div class="cityHead city">Город</div>
+      <div class="statusHead status ">Статус</div>
+    </div>
+    <table-items v-for="orderItem in getOrders" v-bind:item="orderItem" :key="orderItem.id"/>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+import TableItems from "./tableItem";
 export default {
-  name: "ordersTable"
+  name: "ordersTable",
+  components: {TableItems},
+  computed: {
+      ...mapGetters(['getOrders'])
+    }
 }
 </script>
-
 <style scoped>
 .order{
-  margin: 0;
-  padding: 0;
-  min-height: 300px;
-  background-color: white;
-  border: 1px solid black;
+  margin-top: 50px;
+  color: black;
+  background-color: #f7f7f7;
   border-radius: 4px;
   box-shadow: 10px 5px 45px black;
   width: 100%;
 }
-.grid-table{
-  display: grid;
-  width: 100%;
-  border: solid #5B6DCD 10px;
-}
-.title-table {
-  width: 100%;
-  border: solid #5B6DCD 10px;
-  padding: 5px;
-  height: 40px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  background-color: #fac22e;
-  display: grid;
-  grid-template-columns: 50px 200px 200px 200px 200px 340px
-}
+
 </style>

@@ -5,7 +5,10 @@
      <nuxt-link to="/"><img :src="require('~/assets/logo.png')" alt="«НПО НОРТ»"></nuxt-link>
    </div>
    <div v-if="this.$auth.loggedIn">
-     <nuxt-link to="/orders"><button class="sign">Вход в систему</button></nuxt-link>
+    <button class="sign" @click="$refs.modal.showModal = true">Создать заказ</button>
+   </div>
+   <div v-if="this.$auth.loggedIn">
+     <nuxt-link to="/orders"><button class="sign" :disabled="notOrders">Вход в систему</button></nuxt-link>
    </div>
    <div style="padding-right: 50px" v-if="!this.$auth.loggedIn">
     <nuxt-link to="/login">Авторизация</nuxt-link>
@@ -23,15 +26,20 @@
   <div class="footNort">«НПО НОРТ»</div>
   <div class="footNort">1993 - {{year}}</div>
 </div>
+    <add-orders-modals ref="modal"></add-orders-modals>
   </div>
 </template>
 
 <script>
+import Modal from "../components/Modal";
+import AddOrdersModals from "../components/typeModals/addOrdersModals";
 export default {
   name: "default",
+  components: {AddOrdersModals, Modal},
   data(){
     return {
-      year: new Date().getFullYear()
+      year: new Date().getFullYear(),
+      page: false
     }
   },
   methods: {
@@ -39,6 +47,11 @@ export default {
       this.$auth.logout()
     }
   },
+  computed:{
+    notOrders() {
+     return this.$nuxt.$route.name === 'orders' ? true : false
+    }
+  }
 }
 </script>
 
@@ -80,5 +93,8 @@ img{
 .exit {
   cursor: pointer;
   text-decoration: underline;
+}
+button:disabled {
+  background-color: #666666;
 }
 </style>

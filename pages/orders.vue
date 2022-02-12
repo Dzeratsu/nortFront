@@ -1,7 +1,5 @@
 <template>
-<div> {{info}}
-Страница с заказами1
-  {{this.$store.state.orders}}
+<div>
   <orders-table/>
 </div>
 </template>
@@ -9,7 +7,7 @@
 <script>
 import OrdersTable from "../components/ordersTable";
 export default {
-/*  middleware: 'auth',*/
+  middleware: 'auth',
   name: "orders",
   components: {OrdersTable},
   data() {

@@ -1,7 +1,7 @@
 <template>
 <div style="padding-top: 100px">
 <div class="card">
-  <h1>Авторизация</h1>
+  <h1 style="color:white;">Авторизация</h1>
   <p>Введите ваш логин</p>
   <input v-model="log.login"/>
   <p>Введите пароль</p>
@@ -34,6 +34,8 @@ export default {
     async auth(){
       try{
        let response = await this.$auth.loginWith('local', {data: this.log})
+        this.$store.dispatch('acsess', response.data)
+        this.$router.push('/orders')
       }
       catch (e){
       alert(e)
@@ -99,4 +101,5 @@ button {
 button:disabled{
   background-color: #999999;
 }
+
 </style>

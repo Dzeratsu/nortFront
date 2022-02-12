@@ -1,110 +1,96 @@
 <template>
-  <transition name="modal-fade">
-<div class="modal-backdrop">
-<div class="modal">
-  <header class="modal-header">
-<slot name="header">
-  <h1>Добавление нового заказа</h1>
-  <button
-    type="button"
-    class="btn-close"
-    @click="close"
-  >
-    x
-  </button>
-</slot>
-  </header>
-  <section class="modal-body">
-  <slot name="body">
-    I'm the default body!
-  </slot>
-  </section>
-</div>
-</div>
+  <transition name="modal">
+    <div class="modal__wrapper">
+      <div class="modal-content">
+        <div class="modal-header">
+          <slot name="header">Default header</slot>
+          <span class="button-close circle-block" @click="$emit('close')">×</span>
+        </div>
+        <div class="modal-body">
+          <slot name="body">Default body</slot>
+        </div>
+      </div>
+    </div>
   </transition>
 </template>
 
 <script>
 export default {
-  name: "Modal",
-  data() {
-    return {
-      showModal: false
-    }
+  mounted() {
+    document.body.addEventListener("keyup", (e) => {
+      if (e.key === "Escape") this.$emit("close");
+    });
   },
+  computed: {},
   methods: {
-    close() {
-      this.$emit('close');
-    },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-h1{
-  font-size: 25px;
+.modal-enter, .modal-leave-active {
+  opacity: 0;
 }
-.modal-backdrop {
+
+.modal-enter .modal-content,
+.modal-leave-active .modal-content {
+  transform: scale(1.2);
+}
+
+.modal__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
+  transition: opacity .2s ease;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
+  z-index: 998;
+  background-color: rgba(00, 00, 00, .40);
+  padding: 1rem;
 }
-.modal {
-  min-width: 800px;
-  min-height: 600px;
-  background: #FFFFFF;
-  box-shadow: 10px 5px 45px black;
-  overflow-x: auto;
+
+.modal-content {
+  position: relative;
+  background-color: #f7f7f7;
+  transition: all .2s ease;
+  border-radius: 0.25rem;
+  z-index: 999;
+  width: 55vw;
+  max-width: 1200px;
+  min-height: 500px;
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  border: solid 1px #fac22e;
 }
+
 .modal-header {
-  border-bottom: 1px solid #eeeeee;
-  color: #fac22e;
-  justify-content: space-between;
-}
-.modal-header {
-  border-bottom: 1px solid #eeeeee;
-  color: black;
-  justify-content: space-between;
-  padding: 15px;
   display: flex;
+  align-self: center;
+  justify-content: space-between;
+  /*padding-bottom: 1rem;*/
+  border-bottom: 1px solid #E5E5E5;
+  padding: 1rem 1rem;
+  width: 100%;
+  gap: 1rem;
 }
-.modal-body {
-  position: relative;
-  padding: 20px 10px;
-}
-.btn-close {
-  border: none;
-  font-size: 25px;
+.button-close {
+  color: black;
+  width: 30px;
   cursor: pointer;
-  font-weight: bold;
-  color: #fac22e;
+  font-size: 1.5rem;
+  background-color: #fac22e;
+  box-shadow: 0px 1px 20px black;
+  border-radius: 50px;
+  text-align: center;
 
 }
 
-.btn-green {
-  color: white;
-  background: #4AAE9B;
-  border: 1px solid #4AAE9B;
-  border-radius: 2px;
-}
-.modal-fade-enter,
-.modal-fade-leave-active {
-  opacity: 0;
+.modal-body {
+  height: 100%;
+/*  overflow: auto;*/
 }
 
-.modal-fade-enter-active,
-.modal-fade-leave-active {
-  transition: opacity .5s ease
-}
+
 </style>

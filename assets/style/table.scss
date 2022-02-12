@@ -1,0 +1,45 @@
+.table-item{
+  padding: 5px;
+  font-size: 18px;
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  align-content: center;
+  cursor: pointer;
+}
+.table-head{
+  padding: 5px;
+  font-size: 18px;
+  display: flex;
+  background-color: #ff8624;
+  text-align: center;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  justify-content: space-between;
+  font-weight: 500;
+}
+.table-item div {
+  min-height: 20px;
+}
+.id {
+  width: 40px;
+}
+.date{
+width: 80px;
+}
+.name {
+  width: 80px;
+}
+.source{
+  width: 160px
+}
+.phone{
+  width: 160px;
+}
+.city{
+  width: 180px;
+}
+.status {
+  width: 200px;
+}

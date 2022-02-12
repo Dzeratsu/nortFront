@@ -1,7 +1,7 @@
 <template>
   <div style="padding-top: 100px">
     <div class="card">
-      <h1>Регистрация</h1>
+      <h1 style="color: white">Регистрация</h1>
       <p>Ваш логин для авторизации <button class="helper" disabled data-title="Логин будет сформирован после ввода вашей электронной почты и будет являться логином для входа">?
       </button> : <span class="login">{{login}}</span></p>
       <div class="reg">
