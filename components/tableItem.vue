@@ -1,6 +1,6 @@
 <template>
   <div>
-<div class="table-item" v-bind:class="{notReadClass: readOrders}">
+<div class="table-item" v-bind:class="{notReadClass: readOrders}" @click="$refs.modal.showModal = true">
   <div class="id">{{item.id}}</div>
   <div class="date" v-if="item.date">{{timeMask()}}</div>
   <div class="name">{{item.name}}</div>
@@ -9,11 +9,15 @@
   <div class="city">{{item.sity}}</div>
   <div class="status">{{this.$store.state.statusOrders[item.status]}}</div>
 </div>
+    <edit-orders-modal ref="modal" v-bind:item="item"></edit-orders-modal>
 </div>
 </template>
 
 <script>
+import Modal from "../components/Modal";
+import EditOrdersModal from "@/components/typeModals/editOrdersModal";
 export default {
+  components: {EditOrdersModal, Modal},
   props: ['item'],
   name: "tableItems",
   data() {
@@ -28,7 +32,11 @@ export default {
   methods:{
     timeMask(){
       let timeOrders = new Date(this.item.date)
-      return timeOrders.getDate() + ":" + timeOrders.getMonth()+1 + ":" + timeOrders.getFullYear()
+      let mounth = timeOrders.getMonth() + 1
+      if (mounth < 10){
+        mounth = '0'+ mounth
+      }
+      return timeOrders.getDate() + ":" + mounth + ":" + timeOrders.getFullYear()
     }
   },
 }
@@ -36,6 +44,6 @@ export default {
 
 <style scoped>
 .notReadClass {
-  background-color:#e03f2d;
+  background-color:#fff4d1;
 }
 </style>

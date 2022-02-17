@@ -43,9 +43,77 @@ button {
 .wrapper{
   width: 1024px;
   padding: 25px;
+  position: relative;
 }
 ul{
   padding-top: 25px;
+}
+.dropdown-window{
+  color: black;
+  position: relative;
+  display: flex;
+  width: 260px;
+  height: 50px;
+  padding: 2px 15px 2px 15px;
+  background: #fac22e;
+  -webkit-filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+}
+.dropdown-items{
+  color: black;
+  margin-left: 25px;
+  position: absolute;
+  z-index: 9999;
+  left: 0;
+  width: 260px;
+  padding: 2px 2px 2px 15px;
+  background: #fff;
+  -webkit-filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  border: 1px solid #fac22e;
+}
+.dropdown-items p{
+  padding-top: 10px;
+  padding-left: 10px;
+  text-align: left;
+}
+.dpordown p:hover{
+  text-decoration: underline;
+}
+.dropdown{
+  position: static;
+}
+.saveButton{
+  color: black;
+  width: 250px;
+  height: 50px;
+  background: #fac22e;
+}
+.save{
+  padding-bottom: 20px;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.addOrdersWrapper{
+  padding: 25px;
+  display: flex;
+  color: black;
+  justify-content: space-between;
+}
+.addOrders-left{
+  min-width: 300px;
+}
+.addOrders-right {
+  width: 100%;
 }
 
 
