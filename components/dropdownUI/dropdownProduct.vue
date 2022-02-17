@@ -1,18 +1,18 @@
 <template>
-<div class="dpordown">
-  <div class="dropdown-window" @click="this.isOpen">
-    <div>{{description}}</div><div><img src="~/assets/arrow.svg" alt="" width="20px"></div>
+  <div class="dpordown">
+    <div class="dropdown-window" @click="this.isOpen">
+      <div>{{description}}</div><div><img src="~/assets/arrow.svg" alt="" width="20px"></div>
+    </div>
+    <div class="dropdown-items" v-if="this.open" v-click-outside="this.isOpen">
+      <p v-for="(item, index) in text[0]" @click="enter(index)">{{item}}</p>
+    </div>
   </div>
-  <div class="dropdown-items" v-if="this.open" v-click-outside="this.isOpen">
-    <p v-for="(item, index) in text[0]" @click="enter(index)">{{item}}</p>
-  </div>
-</div>
 </template>
 
 <script>
 export default {
   props: ['text'],
-  name: "dropdown",
+  name: "dropdownProduct",
   data() {
     return {
       open: false,
@@ -28,6 +28,7 @@ export default {
       this.num = payload
       this.description = this.text[0][this.num]
       this.open = !this.open
+      this.$emit('product',{product: payload, index: this.text[2]})
     }
   }
 }
@@ -35,25 +36,27 @@ export default {
 
 <style scoped>
 .dropdown-window{
+  color: black;
   position: relative;
   display: flex;
   width: 260px;
-  height: 50px;
+  height: 30px;
   padding: 2px 15px 2px 15px;
-  background: #fac22e;
+  background: #ffffff;
   -webkit-filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
   filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
   text-align: center;
   justify-content: space-between;
   align-items: center;
 }
 .dropdown-items{
-  margin-left: 25px;
+  color: black;
   position: absolute;
   z-index: 9999;
   left: 0;
+  max-height: 150px;
   width: 260px;
   padding: 2px 2px 2px 15px;
   background: #fff;
@@ -63,13 +66,6 @@ export default {
   cursor: pointer;
   text-align: left;
   border: 1px solid #fac22e;
-}
-.dropdown-items p{
-  padding-top: 10px;
-  padding-left: 10px;
-  text-align: left;
-}
-p:hover{
-  text-decoration: underline;
+  overflow: auto;
 }
 </style>

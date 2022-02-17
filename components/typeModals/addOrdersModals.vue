@@ -11,44 +11,62 @@
         <div class="addOrders-left">
           <div>
             <p>Имя:</p>
-            <input>
+            <input v-model="ordersObject.name">
           </div>
           <div>
             <p>E-mail:</p>
-            <input type="email">
+            <input type="email" v-model="ordersObject.email">
           </div>
           <div>
             <p>Телефон:</p>
-            <input>
+            <input v-model="ordersObject.phone"
+                   v-facade="'+7 (###) ###-##-##'"
+                   type="text"
+                   name="phone"
+                   placeholder="+7 (___) ___−__−__"
+            >
           </div>
           <div>
             <p>Город:</p>
-            <input>
+            <input v-model="ordersObject.sity">
           </div>
           <div>
-              <dropdown v-bind:text="[this.$store.state.statusSource, 'Источник']"/>
+              <dropdown v-bind:text="[this.$store.state.statusSource, 'Источник', 'source']" @source="dataSource"/>
+              <dropdown v-bind:text="[this.$store.state.statusOrders, 'Статус', 'status']" @status="dataStatus"/>
         </div>
           </div>
-          <div v-if="this.$store.state.acsess > 1">
+          <div v-if="this.$store.state.acsess < 2">
             <p>Менеджер:</p>
           </div>
 
-        </div>
         <div class="addOrders-right">
-          <div><textarea>Текст заявки</textarea></div>
-          <div>1231</div>
-          <div>1231</div>
+          <div>
+            <p>Текст заявки:      {{ordersObject}}</p>
+            <br/>
+            <textarea class="area" v-model="ordersObject.textOrder"></textarea>
+          </div>
+          <br>
+          <div>
+            <br>
+            <product-add @addObjectProduct="addProduct"/>
+          </div>
         </div>
       </div>
-    <div class="save"><button class="saveButton">Сохранить</button></div>
-    </div>
 
+      <div class="save"><button class="saveButton" @click="sendOrder()">Сохранить</button></div>
+      <v-alert
+        v-model="validAlert"
+        color="#ff8624"
+        dismissible
+        type="warning"
+      >{{validationInfo}}</v-alert>
+    </div>
   </Modal>
 </template>
 
 <script>
 import Modal from "../Modal";
-import dropdown from "../dropdown";
+import dropdown from "../dropdownUI/dropdown";
 export default {
   name: "addOrdersModals",
   components: {
@@ -57,40 +75,84 @@ export default {
   },
   data(){
     return {
-      showModal: false
+      showModal: false,
+      validation: false,
+      validAlert: false,
+      validationInfo: '',
+      ordersObject: {
+        name: '',
+        manager: '',
+        month: new Date().getMonth(),
+        source: '',
+        email: '',
+        phone: '',
+        sity: '',
+        status: '',
+        textOrder: '',
+        product: ''
+      }
     }
   },
   methods: {
+    dataSource(data) {
+      this.ordersObject.source = data.payload
+    },
+    dataStatus(data) {
+      this.ordersObject.status = data.payload
+    },
+    validationAlert(payload) {
+      this.validationInfo = payload
+      this.validAlert = true
+    },
+    validator() {
+      switch ('') {
+        case this.ordersObject.name:
+          this.validationAlert("Не заполненно имя")
+          break;
+        case this.ordersObject.email:
+          this.validationAlert("Не заполнен email")
+          break;
+        case this.ordersObject.phone:
+          this.validationAlert("Не заполнен телефон")
+          break
+        case this.ordersObject.sity:
+          this.validationAlert("Не заполнен город")
+          break
+        case this.ordersObject.source:
+          this.validationAlert("Не заполнен источник")
+          break
+        case this.ordersObject.status:
+          this.validationAlert("Не заполнен статус")
+          break
+        case this.ordersObject.textOrder:
+          this.validationAlert("Не заполнен текст заявки")
+          break
+        default:
+          this.validation = true
+      }
+    },
+    sendOrder() {
+      this.validator()
+      if(this.validation){
+      this.$axios.post('/api/save', this.ordersObject)
+      }
+    },
+    addProduct(payload) {
+      this.ordersObject.product = payload.product
     }
+  },
 }
 </script>
 
 <style scoped>
-h1{
-  color: black;
-  font-size: 25px;
-}
-.addOrdersWrapper{
-  padding: 25px;
-  display: flex;
-  color: black;
-}
-.addOrders-left{
-  min-width: 300px;
-}
+
 .addOrders-left div{
   padding-top: 10px;
 }
-.save{
-  padding-top: 200px;
-  text-align: center;
-  margin: 0 auto;
-}
-.saveButton{
+
+h1{
   color: black;
-  width: 250px;
-  height: 50px;
-  background: #fac22e;
+  font-size: 25px;
 }
 input{
   padding-left: 15px;
@@ -102,39 +164,16 @@ input{
   box-shadow: none;
   outline:none;
 }
-.okno{
-  position: relative;
-  display: flex;
-  margin-top: 10px;
-  width: 390px;
-  padding: 2px 2px 2px 15px;
-  background: #fff;
-  -webkit-filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
-  border-radius: 10px;
-  cursor: pointer;
+.area {
+  min-height: 150px;
+  max-width: 700px;
+  width: 100%;
+  border: 1px solid #fac22e;
+  border-radius: 3px;
+  padding: 10px;
 }
-.dropdown-items{
-  position: absolute;
-  z-index: 9999;
-  left: 0;
-  width: 390px;
-  padding: 2px 2px 2px 15px;
-  background: #fff;
-  -webkit-filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
-  filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.1));
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: left;
+button:disabled {
+  background-color: #666666;
 }
-.dropdown-items p{
-  padding-top: 10px;
-  text-align: left;
-}
-.arrow{
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  cursor: pointer;
-}
+
 </style>

@@ -13,9 +13,10 @@
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/vuetify": "^1.12.3",
     "core-js": "^3.15.1",
+    "node-sass": "^6.0.0",
     "nuxt": "^2.15.7",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^10.1.1",
+    "vue-input-facade": "^2.0.0"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.8"

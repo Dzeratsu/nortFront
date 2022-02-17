@@ -34,6 +34,17 @@
         dismissible
         type="warning"
       >Введенные пароли не совпадают</v-alert>
+      <v-alert
+        v-model="rejectStatus"
+        color="#ff8624"
+        dismissible
+        type="warning"
+      >{{rejectInfo}}</v-alert>
+      <v-alert v-model="success"
+               color="#32CD32"
+               dismissible
+               type="success"
+      >{{ successText }}</v-alert>
     </div>
   </div>
 </template>
@@ -41,56 +52,67 @@
 <script>
 export default {
   name: "registration",
-  data () {
+  data() {
     return {
       login: '',
-      email: '',
-      FIO: '',
-      password: '',
-      password2: '',
+      email: 'shtin@nort-udm.ru',
+      FIO: 'shtin@nort-udm.ru',
+      password: '123456',
+      password2: '123456',
       warningSymbol: false,
       warningRepeatPassword: false,
-      check: false
+      rejectInfo: '',
+      rejectStatus: false,
+      check: false,
+      success: false,
+      successText: ''
     }
   },
   computed: {
-    validation: function (){
-      if(this.email !== '' && this.FIO !== '' && this.password !== '' && this.password2 !== ''){
+    validation: function () {
+      if (this.email !== '' && this.FIO !== '' && this.password !== '' && this.password2 !== '') {
         return false
-      }else {
+      } else {
         return true
       }
     }
   },
   methods: {
-    readyLogin(){
+    readyLogin() {
       this.login = this.email.split('@')[0].toLowerCase()
     },
-    symbols(){
-      if(this.password.length < 6){
-      this.warningSymbol = true
+    symbols() {
+      if (this.password.length < 6) {
+        this.warningSymbol = true
       } else {
         this.warningSymbol = false
       }
     },
-    repeatPassword(){
-      if(this.password !== this.password2){
+    repeatPassword() {
+      if (this.password !== this.password2) {
         this.warningRepeatPassword = true
-      }else{
+      } else {
         this.warningRepeatPassword = false
       }
     },
-    async reg(){
+    async reg() {
       let object = {
         email: this.email,
         FIO: this.FIO,
         password: this.password
       }
-      let resp = await this.$axios.$post('/api/reg', object)
-      console.log(resp)
+       let resp = await this.$axios.$post('/api/reg', object)
+        if(resp.status == false){
+          this.rejectStatus = true
+          this.rejectInfo = resp.info
+        }else {
+          this.success = true
+          this.successText = resp.info
+          setTimeout(()=> this.$router.push('/login'), 1500)
+        }
+      }
     }
   }
-}
 </script>
 
 <style scoped>

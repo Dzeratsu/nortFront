@@ -61,8 +61,10 @@ export default {
   width: 55vw;
   max-width: 1200px;
   min-height: 500px;
+  max-height: 700px;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 }
 
 .modal-header {
