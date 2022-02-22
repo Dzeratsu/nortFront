@@ -1,6 +1,6 @@
 <template>
   <div>
-<div class="table-item" v-bind:class="{notReadClass: readOrders}" @click="$refs.modal.showModal = true">
+<div class="table-item" v-bind:class="{notReadClass: readOrders}" @click="$refs.modal.showModal = true, readOrder(item._id)">
   <div class="id">{{item.id}}</div>
   <div class="date" v-if="item.date">{{timeMask()}}</div>
   <div class="name">{{item.name}}</div>
@@ -37,6 +37,9 @@ export default {
         mounth = '0'+ mounth
       }
       return timeOrders.getDate() + ":" + mounth + ":" + timeOrders.getFullYear()
+    },
+    readOrder(id){
+      this.$store.dispatch('read', id)
     }
   },
 }

@@ -38,5 +38,13 @@ export const actions = {
   },
   acsess({commit}, payload){
     commit("userData", payload)
+  },
+  async read({commit}, id){
+    const resp = await this.$axios.put(`/api/read/${id}`)
+    if (resp.data = "sucsses"){
+      this.loadOrders()
+    }else{
+      return
+    }
   }
 }

@@ -5,7 +5,6 @@
   <div class="oneLine">
     <div><dropdown-product v-bind:text="[allProduct, 'Выберите состав', index]" @product="addProductId"/></div>
     <div><input type="number" placeholder="0" value="0" v-model="product[index].weight">кг</div>
-
     <div v-if="numOne"><button style="color: red" @click="deleteProduct(index)">—</button></div>
 </div>
 </div>
@@ -33,7 +32,7 @@ export default {
       this.numOne = true
     },
     deleteProduct(index){
-      this.product.splice(index, 1)
+      this.product.slice(index, 1)
     },
     addProductId(payload){
       this.product[payload.index].id = payload.product

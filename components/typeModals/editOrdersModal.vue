@@ -49,12 +49,12 @@
 import modal from "@/components/Modal";
 export default {
   name: "editOrdersModal",
-  props:['item'],
+  props: ['item'],
   components: {
     modal
   },
-  data(){
-    return{
+  data() {
+    return {
       showModal: false,
       orderInfo: {
         name: '',
@@ -64,7 +64,6 @@ export default {
         status: '',
         result: []
       }
-
     }
   }
 }
