@@ -3,6 +3,7 @@ export const state = () => ({
   userName: '',
   acsess: '2',
   orders: 'test',
+  manager: '555',
   month: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
   statusOrders: ['Не взят в работу', 'Отправлено дилеру', 'Отправлен прайс-лист', 'Завершен'],
   statusSource: ['Сайт', 'Входящий звонок', 'Почта', 'Нашел менеджер'],
@@ -15,7 +16,10 @@ export const mutations = {
   userData(state, payload){
     state.acsess = payload.acsess
     state.userName = payload.user
-  }
+  },
+  manager(state, payload){
+    state.manager = payload
+}
 }
 export const getters = {
   getOrders(state) {
@@ -23,9 +27,21 @@ export const getters = {
   },
   allProduct(state){
     return state.product
+  },
+  allManager(state){
+    return state.manager
   }
 }
 export const actions = {
+  async loadManager({commit}){
+    const resp = await this.$axios.get('/api/getAllManager')
+    try{
+      commit('manager', resp.data)
+    }catch(e){
+      console.log(e)
+      console.log('Не удалось загрузить список менеджеров')
+    }
+  },
   async loadOrders({commit}, payload) {
     let nowMounth;
     if(payload !== undefined){
@@ -35,16 +51,15 @@ export const actions = {
     }
     const resp = await this.$axios.post(`/api/postMonthOrders/${nowMounth}`)
     commit("addOrders", resp.data)
+    await this.dispatch('loadManager')
   },
   acsess({commit}, payload){
     commit("userData", payload)
   },
   async read({commit}, id){
     const resp = await this.$axios.put(`/api/read/${id}`)
-    if (resp.data = "sucsses"){
-      this.loadOrders()
-    }else{
-      return
+    if (resp.data === "sucsses"){
+     await this.dispatch('loadOrders')
     }
   }
 }

@@ -1,3 +1,4 @@
+<!--Принимает в себя список выпадающего меню, плейсхолдер и название события-->
 <template>
 <div class="dropdown">
   <div class="dropdown-window" @click="this.isOpen">

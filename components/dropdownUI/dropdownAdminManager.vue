@@ -1,10 +1,11 @@
+
 <template>
-  <div class="dpordown">
+  <div class="dropdown">
     <div class="dropdown-window" @click="this.isOpen">
-      <div>{{this.$store.state.month[description]}}</div><div><img src="~/assets/arrow.svg" alt="" width="20px"></div>
+      <div>{{description}}</div><div><img src="~/assets/arrow.svg" alt="" width="20px"></div>
     </div>
     <div class="dropdown-items" v-if="this.open" v-click-outside="this.isOpen">
-      <p v-for="(item, index) in this.$store.state.month" @click="enter(index)">{{item}}</p>
+      <p v-for="(item, index) in text[0]" @click="enter(index)">{{item.FIO}}</p>
     </div>
   </div>
 </template>
@@ -12,11 +13,11 @@
 <script>
 export default {
   props: ['text'],
-  name: "dropdown",
+  name: "dropdownAdminManager",
   data() {
     return {
       open: false,
-      description: new Date().getMonth(),
+      description: this.text[1],
       num: ''
     }
   },
@@ -26,10 +27,9 @@ export default {
     },
     enter(payload) {
       this.num = payload
-      this.description = this.num
+      this.description = this.text[0][this.num].FIO
       this.open = !this.open
-      console.log(this.num)
-      this.$store.dispatch('loadOrders', this.num)
+      this.$emit('managerChange',{manager: this.text[0][payload].login})
     }
   }
 }

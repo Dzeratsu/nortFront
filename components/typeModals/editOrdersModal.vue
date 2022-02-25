@@ -30,6 +30,9 @@
             <p>Город:</p>
             <input :value="item.sity">
           </div>
+          <div>
+            <dropdown-manager v-bind:text="item.manager"></dropdown-manager>
+          </div>
 
 
 
@@ -47,10 +50,12 @@
 
 <script>
 import modal from "@/components/Modal";
+import DropdownManager from "@/components/dropdownUI/dropdownManager";
 export default {
   name: "editOrdersModal",
   props: ['item'],
   components: {
+    DropdownManager,
     modal
   },
   data() {

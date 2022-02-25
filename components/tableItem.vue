@@ -39,7 +39,11 @@ export default {
       return timeOrders.getDate() + ":" + mounth + ":" + timeOrders.getFullYear()
     },
     readOrder(id){
+      if(!this.item.read){
       this.$store.dispatch('read', id)
+    }else {
+        return
+      }
     }
   },
 }
@@ -47,6 +51,6 @@ export default {
 
 <style scoped>
 .notReadClass {
-  background-color:#fff4d1;
+  background-color:#ffe7a3;
 }
 </style>

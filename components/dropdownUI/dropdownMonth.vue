@@ -28,8 +28,7 @@ export default {
       this.num = payload
       this.description = this.num
       this.open = !this.open
-      console.log(this.num)
-      this.$store.dispatch('loadOrders', this.num)
+      this.$emit("mounth", {mounth: payload})
     }
   }
 }
