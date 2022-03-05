@@ -34,13 +34,17 @@ export default {
     async auth(){
       try{
        let response = await this.$auth.loginWith('local', {data: this.log})
-        this.$store.dispatch('acsess', response.data)
         this.$router.push('/orders')
       }
       catch (e){
       alert(e)
       }
     }
+  },
+  mounted() {
+    document.body.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") this.auth();
+    });
   },
   computed: {
     validation: function (){

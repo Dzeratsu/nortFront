@@ -48,7 +48,7 @@ export default {
         endpoints: {
           login: {url: "/api/login", method: "post"},
           logout: {url: "/api/logout", method: "get"},
-          user: false
+          user: {url: '/api/user', method: 'post'}
         },
         tokenRequired: true,
         tokenType: 'Bearer'

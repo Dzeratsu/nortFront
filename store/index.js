@@ -1,9 +1,8 @@
 
 export const state = () => ({
-  userName: '',
-  acsess: '2',
+  mounthTable: '',
   orders: 'test',
-  manager: '555',
+  manager: '',
   month: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
   statusOrders: ['Не взят в работу', 'Отправлено дилеру', 'Отправлен прайс-лист', 'Завершен'],
   statusSource: ['Сайт', 'Входящий звонок', 'Почта', 'Нашел менеджер'],
@@ -13,13 +12,12 @@ export const mutations = {
   addOrders(state, response) {
     state.orders = response.reverse()
   },
-  userData(state, payload){
-    state.acsess = payload.acsess
-    state.userName = payload.user
-  },
   manager(state, payload){
     state.manager = payload
-}
+},
+  addMounthTable(state, payload){
+    state.mounthTable = payload
+  }
 }
 export const getters = {
   getOrders(state) {
@@ -30,6 +28,9 @@ export const getters = {
   },
   allManager(state){
     return state.manager
+  },
+  isAdmin(state){
+    return state.userName == 'admin' ? true : false
   }
 }
 export const actions = {
@@ -42,7 +43,7 @@ export const actions = {
       console.log('Не удалось загрузить список менеджеров')
     }
   },
-  async loadOrders({commit}, payload) {
+  async loadOrders({commit, state}, payload) {
     let nowMounth;
     if(payload !== undefined){
       nowMounth = payload
@@ -50,16 +51,16 @@ export const actions = {
    nowMounth = new Date().getMonth()
     }
     const resp = await this.$axios.post(`/api/postMonthOrders/${nowMounth}`)
+      commit("addOrders", resp.data)
+  },
+  async loadOrderAdmin({commit}, payload){
+    const resp = await this.$axios.post(`/api/postMonthOrders/${payload.mounth}`, payload)
     commit("addOrders", resp.data)
-    await this.dispatch('loadManager')
   },
-  acsess({commit}, payload){
-    commit("userData", payload)
-  },
-  async read({commit}, id){
+  async read({commit, state}, id){
     const resp = await this.$axios.put(`/api/read/${id}`)
     if (resp.data === "sucsses"){
-     await this.dispatch('loadOrders')
+     this.dispatch('loadOrders', state.mounthTable)
     }
   }
 }

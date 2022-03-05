@@ -2,9 +2,9 @@
 <div>
   <div class="dropdownMenu">
     <dropdownMonth @mounth="dataMounth"/>
-    <dropdownAdminManager v-bind:text="[this.$store.state.manager, 'Выберите менеджера']" @managerChange="dataManager"/>
+    <dropdownAdminManager v-bind:text="this.$store.state.manager" @managerChange="dataManager" v-if="isAdmin"/>
   </div>
-    <orders-table/>
+      <orders-table/>
 </div>
 </template>
 
@@ -25,6 +25,7 @@ export default {
   },
   beforeCreate() {
     this.$store.dispatch('loadOrders')
+    this.$store.dispatch('loadManager')
   },
   methods:{
     dataManager(payload){
@@ -37,6 +38,29 @@ export default {
       }else{
         this.mounth = payload.mounth
       }
+    }
+  },
+  watch: {
+    manager(){
+      let object = {
+        mounth: this.mounth,
+        manager: this.manager
+      }
+      this.$store.dispatch('loadOrderAdmin', object)
+    },
+    mounth(){
+      if(this.manager !== ''){
+        let object = {
+          mounth: this.mounth,
+          manager: this.manager
+        }
+        this.$store.dispatch('loadOrderAdmin', object)
+      }
+    }
+  },
+  computed: {
+    isAdmin(){
+      return this.$auth.user == 'admin' ? true : false
     }
   }
 }

@@ -3,11 +3,13 @@
     <div class="addProductHeader"><p> Выберите продукт в заявке:</p>  <button @click="addProduct" style="margin-left: 20px">+</button></div>
 <div class="product" v-for="(item, index) in product">
   <div class="oneLine">
-    <div><dropdown-product v-bind:text="[allProduct, 'Выберите состав', index]" @product="addProductId"/></div>
-    <div><input type="number" placeholder="0" value="0" v-model="product[index].weight">кг</div>
+    <div><dropdown-product v-bind:text="[allProduct, 'Выберите состав', index]" @product="addProductId" /></div>
+<!--    <div><input type="number" placeholder="0" value="0" v-model="product[index].weight">кг</div>-->
+    <div><input type="number" placeholder="0" value="0">кг</div>
     <div v-if="numOne"><button style="color: red" @click="deleteProduct(index)">—</button></div>
 </div>
 </div>
+    {{this.product}}
 </div>
 </template>
 
@@ -28,14 +30,19 @@ export default {
   },
   methods: {
     addProduct(index){
-      this.product.push({id:'', weight: ''})
+      this.$set(this.product, this.product.length, {id:'', weight: ''})
+      /*this.product.push({id:'', weight: ''})*/
       this.numOne = true
     },
     deleteProduct(index){
-      this.product.slice(index, 1)
+      this.product.splice(index, 1)
+      this.updateChild(this.product[index].id)
     },
     addProductId(payload){
       this.product[payload.index].id = payload.product
+    },
+    updateChild(id){
+      this.$emit.childUpdate(id)
     }
   },
   watch: {

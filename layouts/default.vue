@@ -15,7 +15,8 @@
      /
      <nuxt-link to="/registration">Регистрация</nuxt-link>
    </div>
-   <div style="padding-right: 50px" v-if="this.$auth.loggedIn">
+   <div style="padding-right: 50px; text-align: center" v-if="this.$auth.loggedIn">
+     <p>Аккаунт: {{this.$auth.user}}</p>
      <p @click="exit" class="exit">Выход</p>
    </div>
  </div>

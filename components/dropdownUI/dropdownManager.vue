@@ -26,14 +26,15 @@ export default {
             this.open = !this.open
         },
         enter(payload) {
-     /*     this.num = payload
-          this.description = this.text[0][this.num]
+          this.num = payload
+          this.description = this.text[this.num]
           this.open = !this.open
-          this.$emit(`${this.text[2]}`,{payload: payload})*/
+          this.$emit(`manager`,{payload: payload})
+          this.userFio()
         },
         userFio(){
           for (let item in this.users){
-            if(item.login == text){
+            if(item.login == this.text){
               console.log(item.login)
               this.manager = item.FIO
               console.log(this.manager)

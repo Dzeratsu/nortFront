@@ -41,9 +41,9 @@
 
         <div class="addOrders-right">
           <div>
-            <p>Текст заявки:      {{ordersObject}}</p>
+            <p><b>Текст заявки:</b></p>
             <br/>
-            <textarea class="area" v-model="ordersObject.textOrder"></textarea>
+            <textarea class="area" v-model="ordersObject.textOrder" placeholder="введите текст заявки"></textarea>
           </div>
           <br>
           <div>
@@ -81,7 +81,7 @@ export default {
       validationInfo: '',
       ordersObject: {
         name: '',
-        manager: '',
+        manager: this.$auth.user,
         month: new Date().getMonth(),
         source: '',
         email: '',
@@ -131,10 +131,31 @@ export default {
           this.validation = true
       }
     },
-    sendOrder() {
+   async sendOrder() {
       this.validator()
       if(this.validation){
-      this.$axios.post('/api/save', this.ordersObject)
+     let resp = await this.$axios.post('/api/save', this.ordersObject)
+        try{
+        this.showModal = !this.showModal
+          if(resp.status == 201){
+            this.$store.dispatch('loadOrders')
+            this.ordersObject = {
+              name: '',
+              manager: this.$auth.user,
+              month: new Date().getMonth(),
+              source: '',
+              email: '',
+              phone: '',
+              sity: '',
+              status: '',
+              textOrder: '',
+              product: ''
+            }
+          }
+        }
+        catch(e){
+        console.log(e)
+        }
       }
     },
     addProduct(payload) {

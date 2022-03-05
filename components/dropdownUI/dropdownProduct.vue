@@ -29,6 +29,10 @@ export default {
       this.description = this.text[0][this.num]
       this.open = !this.open
       this.$emit('product',{product: payload, index: this.text[2]})
+    },
+    childUpdate(id){
+      console.log('123')
+    this.description = this.text[0][id]
     }
   }
 }

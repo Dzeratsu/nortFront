@@ -29,7 +29,11 @@ export default {
       this.description = this.num
       this.open = !this.open
       this.$emit("mounth", {mounth: payload})
+      this.$store.commit('addMounthTable', payload)
     }
+  },
+  mounted() {
+    this.$store.commit('addMounthTable', this.description)
   }
 }
 </script>
